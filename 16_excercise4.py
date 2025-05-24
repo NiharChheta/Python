@@ -69,3 +69,35 @@ while number3 <= 1000:
     print(number3, end = " ")
     n = n + 1
     number3 = n ** 3
+print()
+
+
+# Write a program to print fibonacci series
+
+'''
+0 1 1 2 3 5 8 13 .... 1000
+steps
+1. create variable a and b
+2. a = 0
+3. b = 1
+4. print a
+5. print b
+6. c = a + b
+7. a = b
+8. b = c
+9. c = a + b
+10. a = b
+11. b = c
+12. c = a + b
+'''
+
+a = 0
+b = 1
+print(a, end=" ")
+print(b, end=" ")
+
+while b <= 1000:
+    c = a + b
+    print(c, end=" ")
+    a = b
+    b = c
