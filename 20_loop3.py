@@ -1,5 +1,5 @@
 '''
-    write a program to findout reverse of given no 
+    write a program to find out reverse of given no 
     input : 1234 
     output : 4321
     steps 
@@ -30,7 +30,5 @@ while number>0:
     reminder = number % 10
     reverse = (reverse * 10) + reminder
     number = number // 10
-
-
 
 print(f"reverse = {reverse}")
