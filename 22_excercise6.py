@@ -45,3 +45,22 @@ print(f"Vowels: {vowel_count}")
 print(f"Consonants: {consonant_count}")
 print(f"Digits: {digit_count}")
 print(f"Symbols: {symbol_count}")
+
+# write a program to find out minimum marks & subject name and maximum marks and subject name from given dictionary 
+# marks = {"Math": 88, "English": 75, "Science": 92, "History": 80, "Geography": 78, "Computer": 95}
+marks = {"Math": 88, "English": 75, "Science": 92, "History": 80, "Geography": 78, "Computer": 95}
+
+min_mark = min(marks.values())
+max_mark = max(marks.values())
+
+min_subject = None
+max_subject = None
+
+for subject, mark in marks.items():
+    if mark == min_mark:
+        min_subject = subject
+    if mark == max_mark:
+        max_subject = subject
+
+print(f"Minimum marks: {min_mark} in {min_subject}")
+print(f"Maximum marks: {max_mark} in {max_subject}")
