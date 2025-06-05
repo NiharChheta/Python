@@ -30,3 +30,24 @@ while row <= 5:  # outer loop
 
     print()
     row = row + 1
+
+print()
+
+row = 1
+while row <= 5:
+    # print leading spaces (two spaces per unit to balance with the numbers)
+    space = 5 - row
+    while space > 0:
+        print("  ", end='')  # two spaces here
+        space = space - 1
+
+    # print alternating 1s and 0s with space between numbers
+    column = 1
+    num = row % 2
+    while column <= row:
+        print(num, end='   ')  # three spaces after each number for better pyramid shape
+        num = 1 - num
+        column = column + 1
+
+    print()
+    row = row + 1
