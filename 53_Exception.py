@@ -3,7 +3,7 @@ result = 0
 try:
     num1 = int(input("enter num1 "))
     num2 = int(input("enter num2 "))
-    result = num1 / num3 
+    result = num1 / num3  # intentional error to demonstrate exception handling 
 except: 
     print("oops something went wrong. please try again")
 else:
