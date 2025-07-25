@@ -1,0 +1,283 @@
+how to create table?
+----------------------
+create table <tablename>(
+    fieldname datatype(size) constraint,
+    fieldname datatype(size) constraint,
+    fieldname datatype(size) constraint
+);
+
+create table category(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    name varchar(64) unique not null,
+    photo varchar(255),
+    inserted_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+how to insert new row into table?
+1st method
+insert into <tablename> values (value1,value2,value3);
+
+example
+insert into category values (0,'Mobile','mobile.jpg',CURRENT_TIMESTAMP);
+insert into category values (NULL,'Laptop','laptop.jpg',CURRENT_TIMESTAMP);
+
+2nd method
+insert into <tablename> (fieldname,fieldname2,fieldname3) values (value1,value2,value3);
+insert into category(name,photo) values('AC','AC.jpg')
+
+how to delete row?
+------------------------
+delete from <tablename> where condition
+
+delete all row from table 
+delete from category
+
+delete rows as per condition 
+delete categories where name is Electronics
+delete from category where name='Electronics'
+
+delete categories where id is below 7
+delete from category where id<7
+----------------------------------------------------------------
+how to update existing row in table?
+syntax
+update <tablename> set fieldname=value, fieldname2=value, fieldname3 = value where condition
+
+update table category change value of the category whose id is 7, new value of name should be home appliences and photo should be home_appliences.jpg 
+
+update category set name='home appliences', photo='home_appliences.jpg' where id= 7
+
+update table category set photo = null where id is above 20 
+update category set photo=null where id>20
+
+
+how to empty table and reset PRIMARY KEY?
+--------------------------------------------------
+truncate table <tablename>
+truncate table category
+
+how to remove table?
+drop table <tablename>
+drop table category
+
+how to fetch data from table?
+-------------------------------------------------------------
+
+syntax?
+-------------------------------------------------------------
+SELECT *|FIELDLIST|FUNCTION FROM <TABLENAME> [WHERE CONDITION] [GROUP BY FIELDNAME] [HAVING FUNCTION] [ORDER BY FIELDNAME] [LIMIT]
+
+how to fetch all fields & all rows from table 
+---------------------------------------------
+fetch everthing from customers table 
+select * from customers
+
+fetch only required/selected fields & all rows from table 
+fetch customerNumber,customerName,city,state,country from customers table 
+select customerNumber,customerName,city,state,country from customers
+
+fetch only required/selected fields & rows as per condition from table 
+fetch customerNumber,customerName,city,state,country from customers table of those customers who are from usa 
+select customerNumber,customerName,city,state,country from customers where country='usa'
+
+fetch customerNumber,customerName,city,state,country from customers table of those customers who are from usa or france or Norway
+
+select customerNumber,customerName,city,state,country from customers where country='usa' or country='france' or country='Norway'
+
+or 
+select customerNumber,customerName,city,state,country from customers where country in ('usa','france','Norway')
+
+
+fetch customerNumber,customerName,city,state,country from customers table of those customers is from usa, state nv and city las vegas 
+
+select customerNumber,customerName,city,state,country from customers where country='usa' and state='nv' and city = 'las vegas'
+
+fetch customerNumber,customerName,creditlimit of those customers whose creditlimit is between 100000 and 500000
+
+select customerNumber,customerName,creditlimit from customers where creditlimit>=100000 and creditlimit<=500000
+
+or 
+
+select customerNumber,customerName,creditlimit from customers where creditlimit between 100000  and 500000 
+
+fetch those customers name whose name contains wheels at anywhere 
+
+select customerName from customers where customerName like '%wheels%'
+
+fetch those customers name whose name contains wheels at begining  
+
+select customerName from customers where customerName like 'wheels%'
+
+fetch those customers name whose name contains wheels at end   
+select customerName from customers where customerName like '%wheels'
+
+
+Aggrigate functions
+--------------------------
+Aggrigate functions are built in functions in mysql which work upon numeric field and always return single value. 
+
+sum 
+sum() Aggrigate function return sum of given numeric field 
+findout total payment amount from payment table 
+select sum(amount) from payments
+
+average 
+avg() Aggrigate function return average of given numeric field 
+findout average payment amount from payment table 
+select avg(amount) from payments
+
+
+count 
+count() function return total number of rows as per condition 
+count total no of payments received so far. 
+select count(amount) from payments
+
+minimum value 
+min() function return minimum (smallest) value of given field 
+select min(amount) from payments
+
+maximum value 
+max() function return maximum (largest) value of given field 
+select max(amount) from payments
+
+count how many customers from usa country. 
+select count(*) 'total' from customers where country='usa'
+
+count how many customers from each country. 
+select country,count(*) 'total' from customers group by country;
+
+
+findout total payment amount and no of payments paid by each and every customers
+
+select customerNumber,sum(amount) 'total payment',count(*) 'no of payments' from payments group by customerNumber;
+
+findout total payment amount of those customers who has paid less then 100000 total 
+
+select customerNumber,sum(amount) 'total payment' from payments group by customerNumber having sum(amount)<100000;
+
+get list of country where there are only 1 customers
+    select count(*),country from customers group by country having count(*)<=1
+
+fetch customerNumber,customerName,city,state,country in ascending order of customerName wise 
+SELECT customerNumber,customerName,city,state,country FROM `customers` order by customerName
+
+fetch customerNumber,customerName,city,state,country in descending order of customerName wise 
+SELECT customerNumber,customerName,city,state,country FROM `customers` order by customerName desc
+
+fetch customerNumber,customerName,city,state,country in ascending order of country wise then state wise, city wise 
+
+SELECT customerNumber,customerName,city,state,country FROM `customers` order by country,state,city
+
+fetch 1st 50 customers data name wise 
+select * from customers order by customerName limit 0,50
+
+fetch next 50 customers data name wise 
+select * from customers order by customerName limit 51,50
+-------------------------------------------------------------------
+what is join?
+join is one type of sql command which will fetch data from multiple tables. in join operation we use multiple table name in select statement. to do join operation between table, there must be one common field in tables. 
+there are many types of join. 4 important joins are 
+
+1) equi join
+    equi join means type of join in which select statement will fetch data from both tables only if command field has same value. 
+
+    syntax 
+    select table1alias.fields,table2alias.field from table1 alias, table2 alias where table1alias.fieldname = table2alias.fieldname
+
+
+    fetch customerNumber,customerName and total payment amount 
+
+    select customerNumber,customerName from customers c 
+    select sum(amount) from payments p 
+
+    now join query
+    
+    select c.customerNumber,customerName,sum(amount) from customers c, payments p where c.customerNumber=p.customerNumber group by p.customerNumber
+
+    fetch order's detail and its total amount 
+    select * from orders o 
+    select orderNumber,sum(quantityOrdered*priceEach) 'order total' from orderdetails od group by orderNumber
+
+    select o.*,sum(quantityOrdered*priceEach) 'order total' from orders o, orderdetails od where o.orderNumber=od.orderNumber group by od.orderNumber;
+
+    fetch customerNumber,customerName and his order detail with amount. 
+    select customerNumber,customerName from customers c 
+    select * from orders o 
+    select orderNumber,sum(quantityOrdered*priceEach) 'order total' from orderdetails od group by orderNumber
+
+
+    merge them 
+    select customerName,o.*,sum(quantityOrdered*priceEach) 'order total' from orders o, orderdetails od,customers c where o.orderNumber=od.orderNumber and c.customerNumber=o.customerNumber group by od.orderNumber;
+
+2) left join
+    left join means type of join in which select statement will fetch all row from left table and only matching row from right table.
+
+    syntax 
+    SELECT column_list FROM left_table LEFT JOIN right_table ON left_table.column_name = right_table.column_name;
+
+    fetch customerNumber,customerName,city,state,country of those customers who has not given any order 
+
+    select customerNumber,customerName,city,state,country from customers 
+    select orderNumber,orderDate from orders    
+
+    now merge them 
+
+    select c.customerNumber,customerName,city,state,country,orderNumber,orderDate from customers c  left join orders o on c.customerNumber = o.customerNumber where orderNumber is null
+ 
+    fetch customerNumber,customerName,city,state,country of those customers who has not given any order in year 2004
+
+    select c.customerNumber,customerName,city,state,country,orderNumber,orderDate from customers c  left join orders o on c.customerNumber = o.customerNumber and orderdate>='2004-01-01' and orderdate<='2004-12-31' where orderNumber is null
+
+
+    fetch customerNumber,customerName of those customers who has not paid in 2003 
+
+    select customerNumber,customerName from customers c
+    select paymentDate,amount from payments p 
+
+    select c.customerNumber,customerName,paymentDate,amount from customers c left join payments p on c.customerNumber = p.customerNumber and paymentDate>='2003-01-01' and paymentDate<='2003-12-31' where amount is null
+
+2) right join
+    right join means type of join in which select statement will fetch all row from right table and only matching row from left table.
+
+    syntax
+    SELECT column_list FROM left_table RIGHT JOIN right_table ON left_table.column_name = right_table.column_name;
+
+
+    example 
+    
+        get detail of those order where customerNumber is fake. 
+
+    steps 
+        select customerNumber,customerName from customers c 
+        select orderNumber,orderDate from orders 
+
+    merge 
+        select c.customerNumber,customerName,orderNumber,orderDate from customers c right join orders o on c.customerNumber=o.customerNumber where c.customerNumber is null
+
+----------------------------------------------------------------------------------------
+sub query 
+
+when we use select statement inside another select statement, it is called sub query. outer select statement is called out query and inner select statement is called inery query. inner query is used to give result to outer query. there is no fix syntax for sub query. 
+
+findout customerNumber,customerName who has made minimum payment
+
+select p.customerNumber,customerName,amount from payments p, customers c where amount = (
+select min(amount) from payments) and c.customerNumber = p.customerNumber
+
+findout customerNumber of those customers who has never given order 
+
+select DISTINCT customerNumber from orders o order by customerNumber; 
+select customerNumber from customers where customerNumber not in(select DISTINCT customerNumber from orders o order by customerNumber)
+
+findout customerNumber,customerName who has never given payment 
+
+select customerNumber,customerName from customers c 
+select DISTINCT customerNumber from order o 
+
+list of customer who have given order 
+select customerNumber,customerName from customers c where customerNumber in(select DISTINCT customerNumber from orders o)
+
+get list of customers who has given payment 
+select DISTINCT(customerNumber) from payment p order by customerNumber
+
+select customerNumber,customerName from customers c where customerNumber in(select DISTINCT customerNumber from orders o) and  customerNumber not in (select DISTINCT(customerNumber) from payments p order by customerNumber)
